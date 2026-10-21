@@ -1,0 +1,47 @@
+name: GitHub Final Project CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint-and-test:
+    name: Lint and unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+
+      - name: Lint with ShellCheck
+        run: shellcheck simple-interest.sh
+
+      - name: Unit tests with Bash
+        shell: bash
+        run: |
+          set -euo pipefail
+          tmpdir="$(mktemp -d)"
+          trap 'rm -rf "$tmpdir"' EXIT
+
+          # Feed known inputs to the interactive calculator, then verify outputs.
+          output="$(printf '1000\n5\n2\n' | bash simple-interest.sh)"
+          printf '%s\n' "$output"
+          grep -Fq 'Simple Interest: 100.00' <<< "$output"
+          grep -Fq 'Total Amount: 1100.00' <<< "$output"
+
+          output="$(printf '2500\n4\n3\n' | bash simple-interest.sh)"
+          printf '%s\n' "$output"
+          grep -Fq 'Simple Interest: 300.00' <<< "$output"
+          grep -Fq 'Total Amount: 2800.00' <<< "$output"
+
+          echo "All unit tests passed."
