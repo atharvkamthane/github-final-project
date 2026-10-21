@@ -32,7 +32,7 @@ Enter the principal amount, annual rate of interest, and time in years when prom
 
 ## Run linting and unit tests locally
 
-Use Python 3.10 for compatibility with the nose test runner.
+Use Python 3.9 for compatibility with the pinned nose 1.3.7 test runner.
 
 ```bash
 python -m pip install -r requirements-dev.txt
