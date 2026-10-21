@@ -18,30 +18,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install shellcheck
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y shellcheck
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
 
-      - name: Lint with ShellCheck
-        run: shellcheck simple-interest.sh
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip && python -m pip install -r requirements-dev.txt
 
-      - name: Unit tests with Bash
-        shell: bash
-        run: |
-          set -euo pipefail
-          tmpdir="$(mktemp -d)"
-          trap 'rm -rf "$tmpdir"' EXIT
+      - name: Lint with flake8
+        run: flake8 tests
 
-          # Feed known inputs to the interactive calculator, then verify outputs.
-          output="$(printf '1000\n5\n2\n' | bash simple-interest.sh)"
-          printf '%s\n' "$output"
-          grep -Fq 'Simple Interest: 100.00' <<< "$output"
-          grep -Fq 'Total Amount: 1100.00' <<< "$output"
-
-          output="$(printf '2500\n4\n3\n' | bash simple-interest.sh)"
-          printf '%s\n' "$output"
-          grep -Fq 'Simple Interest: 300.00' <<< "$output"
-          grep -Fq 'Total Amount: 2800.00' <<< "$output"
-
-          echo "All unit tests passed."
+      - name: Run unit tests with nose
+        run: nosetests -v
