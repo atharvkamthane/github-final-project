@@ -1,0 +1,45 @@
+GitHub Actions CI Validation
+=============================
+
+Repository: atharvkamthane/github-final-project
+Workflow: .github/workflows/workflow.yml
+Branch: main
+Source GitHub Actions run: #11
+Run URL: https://github.com/atharvkamthane/github-final-project/actions/runs/39636044783
+Result: SUCCESS
+Job: Lint and unit tests
+Runner: ubuntu-latest
+Python: 3.9.25
+
+Workflow step status (from the completed GitHub Actions job):
+[success] Set up job
+[success] Checkout repository
+[success] Set up Python
+[success] Install dependencies
+[success] Lint with flake8
+[success] Run unit tests with nose
+[success] Post Set up Python
+[success] Post Checkout repository
+[success] Complete job
+
+Captured command and test output from the successful runner log:
+
+$ flake8 tests
+# Completed successfully with exit code 0. flake8 prints no output when no lint issues are found.
+
+$ nosetests -v
+test_fractional_interest (test_simple_interest.SimpleInterestTests) ... ok
+test_standard_calculation (test_simple_interest.SimpleInterestTests) ... ok
+test_zero_rate (test_simple_interest.SimpleInterestTests) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.026s
+
+OK
+
+Validation summary:
+- Linting completed successfully.
+- All 3 unit tests passed.
+- The GitHub Actions job completed with conclusion: success.
+
+This report preserves the relevant validation details from the completed run linked above.
