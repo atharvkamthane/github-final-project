@@ -1,3 +1,4 @@
+complete emotion detector using python
 # Simple Interest Calculator
 
 A command-line calculator that computes simple interest and the total amount for a principal, annual interest rate, and time period. The calculator is implemented in Bash.
